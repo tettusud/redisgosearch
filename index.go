@@ -29,6 +29,14 @@ func NewClient(address string, namespace string) (r *Client, err error) {
 	return
 }
 
+// NewClientConnection returns a Client given the redis address and namespace,
+// or an error if a connection couldn't be made.
+func NewClientConnection(redisConn redis.Conn, namespace string) (r *Client, err error) {
+	r = &Client{namespace: namespace}
+	r.redisConn = redisConn
+	return
+}
+
 func (client *Client) index(i Indexable, segmentFn SegmentFn) (err error) {
 	indexType, key, entity, rank := i.IndexEntity()
 
